@@ -61,7 +61,7 @@ Use with the following arguments
   gotify=tdxnisotptpdxd
   ```
 
-  To receive gotify notifications put your gotify app key.
+  To receive Gotify notifications put your Gotify app key.
 
 - 3.Done
 
