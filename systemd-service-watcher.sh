@@ -24,7 +24,7 @@ gotify=
 default_cron="
 DATEVAR=date -u +%Y-%m-%dT%H:%M
 #m h dom m dow user script
-*/10 * * * *  root \"$installed_script_path\" check-services
+*/10 * * * *  root \"$installed_script_path\" check-services > /dev/null
 "
 
 hostname=$(hostname -f)
