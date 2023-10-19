@@ -3,7 +3,7 @@
 ## What it is and what it does
 
 System service watcher is a simple script that send notifications(emails)
-periodically if a there are failed services.
+periodically if there are failed services.
 
 ## How to use it
 
@@ -31,7 +31,8 @@ Use with the following arguments
 ```
 
 - 1.download
-  clone the project on the system
+
+  Clone the project on the system
 
   ```
   git clone https://github.com/abdoulayeYATERA/systemd-service-watcher
@@ -39,7 +40,7 @@ Use with the following arguments
 
 - 1.Install
 
-  use install argument to install the script on the system
+  Use install argument to install the script on the system
 
   ```
   ./systemd-service-watcher/systemd-service-watcher.sh install
@@ -47,7 +48,7 @@ Use with the following arguments
 
 - 2.Configure
 
-  edit /opt/systemd-service-watcher/systemd-service-watcher.conf
+  Edit /opt/systemd-service-watcher/systemd-service-watcher.conf
 
   ```
   mail=root
@@ -70,4 +71,4 @@ Use with the following arguments
   rm -r ./systemd-service-watcher
   ```
 
-  you're done, you'll receive notifications every 10 minutes when you have failed services.
+  You're done, you'll receive notifications every 10 minutes when you have failed services.
