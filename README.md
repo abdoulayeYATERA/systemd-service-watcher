@@ -36,20 +36,27 @@ Use with the following arguments
   git clone
   ```
 
-- 1.install
+- 1.Install
 
   use install argument to install the script on the system
 
-- 2.configure
+- 2.Configure
 
   edit /opt/systemd-service-watcher/systemd-service-watcher.conf
 
-  update mail value to whatever suit you, default is root (see https://www.baeldung.com/linux/etc-aliases-file).<br/>
+  ```
+  mail=root
+  ```
+
+  To receive mail notifications put you email, default is root (see https://www.baeldung.com/linux/etc-aliases-file).<br/>
   Of course you can set non alias email (eg. myemail@mydomain.com)
 
-```
-mail=root
-```
+  ```
+  gotify=tdxnisotptpdxd
+  ```
 
-- 3.done
-  You're done, delete the cloned project
+  To receive gotify notifications put your gotify app key.
+
+- 3.Done
+
+  Delete the cloned project, you're done, you'll receive notifications every 10 minutes when you have failed services.
