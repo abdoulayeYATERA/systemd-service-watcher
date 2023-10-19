@@ -61,7 +61,7 @@ print_help() {
 echo "---  $script_name $script_version ---"
 
 if [ $# -eq 0 ]; then
-  print_help;
+  print_help
 fi
 
 if [ "$1" = "install" ]; then
