@@ -7,8 +7,6 @@ periodically if a there are failed services.
 
 ## How to use it
 
-Here is the helper
-
 ```
 ---  Systemd Service Watcher 1.0.0 ---
 Use with the following arguments
@@ -27,6 +25,9 @@ Use with the following arguments
   test-notifications
     send test notifications
     See /opt/systemd-service-watcher/systemd-service-watcher.conf for notifications config
+
+  help
+    show the help
 ```
 
 - 1.download

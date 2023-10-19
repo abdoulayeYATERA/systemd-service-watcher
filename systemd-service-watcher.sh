@@ -52,6 +52,9 @@ print_help() {
   test-notifications  
     send test notifications
     See $installed_conf_path for notifications config 
+  
+  help 
+    show the help
   "
 }
 
