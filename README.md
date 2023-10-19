@@ -33,12 +33,16 @@ Use with the following arguments
   clone the project on the system
 
   ```
-  git clone
+  git clone https://github.com/abdoulayeYATERA/systemd-service-watcher
   ```
 
 - 1.Install
 
   use install argument to install the script on the system
+
+  ```
+  ./systemd-service-watcher/systemd-service-watcher.sh install
+  ```
 
 - 2.Configure
 
