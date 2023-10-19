@@ -1,4 +1,4 @@
-# Systemctl Service Watcher
+# Systemd Service Watcher
 
 ## What it is and what it does
 
