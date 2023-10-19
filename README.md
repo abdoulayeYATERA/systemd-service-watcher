@@ -55,7 +55,8 @@ Use with the following arguments
   ```
 
   To receive mail notifications put you email, default is root (see https://www.baeldung.com/linux/etc-aliases-file).<br/>
-  Of course you can set non alias email (eg. myemail@mydomain.com)
+  You can set non alias email (eg. myemail@mydomain.com).<br/>
+  Email system (Postfix) have to be working for email notifications to work.
 
   ```
   gotify=tdxnisotptpdxd
