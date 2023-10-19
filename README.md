@@ -64,4 +64,10 @@ Use with the following arguments
 
 - 3.Done
 
-  Delete the cloned project, you're done, you'll receive notifications every 10 minutes when you have failed services.
+  Delete the cloned project
+
+  ```
+  rm -r ./systemd-service-watcher
+  ```
+
+  you're done, you'll receive notifications every 10 minutes when you have failed services.
