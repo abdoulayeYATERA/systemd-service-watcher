@@ -12,14 +12,15 @@ top_dir=${my_path%/*}
 my_real_name=${my_path##*/}
 
 script_name="Systemd Service Watcher"
-script_version="1.0.0"
+script_version="2.0.0"
 installed_path="/opt/systemd-service-watcher"
 installed_script_path="${installed_path}/systemd-service-watcher.sh"
 installed_conf_path="${installed_path}/systemd-service-watcher.conf"
 installed_cron_path="/etc/cron.d/systemd-service-watcher"
 default_config="
 mail=root
-gotify=
+gotify_url=
+gotify_app_token=
 "
 default_cron="
 DATEVAR=date -u +%Y-%m-%dT%H:%M
@@ -33,6 +34,22 @@ is_installed() {
   if ! [ -f "$installed_script_path" ] || ! [ -f "$installed_conf_path" ] || ! [ -f "$installed_cron_path" ]; then
     return 1
   fi
+}
+
+gotify_send_message() {
+  curl -X 'POST' \
+  "$gotify_url/message" \
+  -H 'accept: application/json' \
+  -H "X-Gotify-Key: $gotify_app_token" \
+  -H 'Content-Type: application/json' \
+  -d "{
+        \"message\": \"$2\",
+        \"title\": \"$1\"
+      }"
+}
+
+gotify_is_setup() {
+  test -n "$gotify_url" && test -n "$gotify_app_token"
 }
 
 print_help() {
@@ -119,12 +136,20 @@ if [ "$1" = "test-notifications" ]; then
 	if [ -n "$mail" ]; then 
 	  #send mail
     echo "Send test notification mail to $mail"
-    printf "%s" "$systemctl_failed_services_return" | mail -s "Test notification $script_name on $hostname" "$mail" 
+    printf "%s" "$systemctl_failed_services_return"  | \
+      mail -s "Test notification $script_name on $hostname" "$mail" 
   fi
 
-  if [ -n "$gotify" ]; then
-    echo "TODO send gotfiy notification"
+  if gotify_is_setup; then
+    echo "Send test notification to Gotify 
+    url : $gotify_url
+    app_token : $gotify_app_token"
+    gotify_notification_title="Test notifications $script_name $script_version"
+    gotify_notification_message="${systemctl_failed_services_return//$'\n'/\\n}"
+    gotify_response=$(gotify_send_message "$gotify_notification_title" "$gotify_notification_message")
+    echo "$gotify_response"
   fi
+  exit 0
 fi
 
 if [[ $systemctl_status_return =~ "Failed: 0 units" ]]; then
@@ -133,16 +158,23 @@ if [[ $systemctl_status_return =~ "Failed: 0 units" ]]; then
   exit 0
 fi
 echo "Failed services detected !"
+services_failed_notification_title="Services Failed on $hostname"
 if [ -n "$mail" ]; then 
   #send mail
   echo "Send services failed email to $mail"
-  printf "%s" "$systemctl_failed_services_return" | mail -s "Services Failed on $hostname" "$mail" 
+  printf "%s" "$systemctl_failed_services_return" | mail -s "$services_failed_notification_title" "$mail" 
 fi
 
-if [ -n "$gotify" ]; then
+if gotify_is_setup; then
   #send gotify notification
-  echo "TODO : gotify notification"
+  echo "Send services failed gotify notification
+  url : $gotify_url
+  app_token : $gotify_app_token"
+  gotify_notification_message="${systemctl_failed_services_return//$'\n'/\\n}"
+  gotify_response=$(gotify_send_message "$services_failed_notification_title" "$gotify_notification_message")
+  echo "$gotify_response"
 fi
+
 
 
 
