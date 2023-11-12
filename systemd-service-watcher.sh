@@ -133,20 +133,20 @@ systemctl_status_return=$(systemctl status) || { echo "Error getting services st
 systemctl_failed_services_return=$(systemctl list-units --failed) || { echo "Error getting services status !"; exit 1; }
 
 if [ "$1" = "test-notifications" ]; then 
+  test_notification_title="Test notification $hostname $script_name $script_version"
 	if [ -n "$mail" ]; then 
 	  #send mail
     echo "Send test notification mail to $mail"
     printf "%s" "$systemctl_failed_services_return"  | \
-      mail -s "Test notification $script_name on $hostname" "$mail" 
+      mail -s "$test_notification_title" "$mail" 
   fi
 
   if gotify_is_setup; then
     echo "Send test notification to Gotify 
     url : $gotify_url
     app_token : $gotify_app_token"
-    gotify_notification_title="Test notifications $script_name $script_version"
     gotify_notification_message="${systemctl_failed_services_return//$'\n'/\\n}"
-    gotify_response=$(gotify_send_message "$gotify_notification_title" "$gotify_notification_message")
+    gotify_response=$(gotify_send_message "$test_notification_title" "$gotify_notification_message")
     echo "$gotify_response"
   fi
   exit 0
