@@ -174,7 +174,3 @@ if gotify_is_setup; then
   gotify_response=$(gotify_send_message "$services_failed_notification_title" "$gotify_notification_message")
   echo "$gotify_response"
 fi
-
-
-
-

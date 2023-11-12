@@ -48,21 +48,27 @@ Use with the following arguments
 
 - 2.Configure
 
-  Edit /opt/systemd-service-watcher/systemd-service-watcher.conf
+```
+  vim /opt/systemd-service-watcher/systemd-service-watcher.conf
+  #or
+  nano /opt/systemd-service-watcher/systemd-service-watcher.conf
+```
 
-  ```
-  mail=root
-  ```
+Edit the config file
 
-  To receive mail notifications put you email, default is root (see https://www.baeldung.com/linux/etc-aliases-file).<br/>
-  You can set non alias email (eg. myemail@mydomain.com).<br/>
-  Email system (Postfix) have to be working for email notifications to work.
+```
+mail=myemail@mydomain.com
+```
 
-  ```
-  gotify=tdxnisotptpdxd
-  ```
+To receive mail notifications put your email or alias (see https://www.baeldung.com/linux/etc-aliases-file).<br/>
+System Postfix have to be working for email notifications to work.
 
-  To receive Gotify notifications put your Gotify app key.
+```
+gotify_url=https://gotify.mywebsite.com
+gotify_app_token=xdnsidutsridx_isté
+```
+
+To receive Gotify notifications put your Gotify url and app key.
 
 - 3.Done
 
