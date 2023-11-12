@@ -18,7 +18,7 @@ installed_script_path="${installed_path}/systemd-service-watcher.sh"
 installed_conf_path="${installed_path}/systemd-service-watcher.conf"
 installed_cron_path="/etc/cron.d/systemd-service-watcher"
 default_config="
-mail=root
+mail=
 gotify_url=
 gotify_app_token=
 "
