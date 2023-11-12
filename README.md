@@ -2,7 +2,7 @@
 
 ## What it is and what it does
 
-System service watcher is a simple script that send notifications(emails)
+System service watcher is a simple script that send notifications(emails, Gotify)
 periodically if there are failed services.
 
 ## How to use it
