@@ -48,34 +48,34 @@ Use with the following arguments
 
 - 2.Configure
 
-```
-  vim /opt/systemd-service-watcher/systemd-service-watcher.conf
-  #or
-  nano /opt/systemd-service-watcher/systemd-service-watcher.conf
-```
-
-Edit the config file
-
-```
-mail=myemail@mydomain.com
-```
-
-To receive mail notifications put your email or alias (see https://www.baeldung.com/linux/etc-aliases-file).<br/>
-System Postfix have to be working for email notifications to work.
-
-```
-gotify_url=https://gotify.mywebsite.com
-gotify_app_token=xdnsidutsridx_isté
-```
-
-To receive Gotify notifications put your Gotify url and app key.
-
-- 3.Done
-
-  Delete the cloned project
-
   ```
-  rm -r ./systemd-service-watcher
+    vim /opt/systemd-service-watcher/systemd-service-watcher.conf
+    #or
+    nano /opt/systemd-service-watcher/systemd-service-watcher.conf
   ```
 
-  You're done, you'll receive notifications every 10 minutes when you have failed services.
+  Edit the config file
+
+  ```
+  mail=myemail@mydomain.com
+  ```
+
+  To receive mail notifications put your email or alias (see https://www.baeldung.com/linux/etc-aliases-file).<br/>
+  System Postfix have to be working for email notifications to work.
+
+  ```
+  gotify_url=https://gotify.mywebsite.com
+  gotify_app_token=xdnsidutsridx_isté
+  ```
+
+  To receive Gotify notifications put your Gotify url and app key.
+
+  - 3.Done
+
+    Delete the cloned project
+
+    ```
+    rm -r ./systemd-service-watcher
+    ```
+
+    You're done, you'll receive notifications every 10 minutes when you have failed services.
