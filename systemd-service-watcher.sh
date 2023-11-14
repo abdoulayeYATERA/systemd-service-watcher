@@ -129,8 +129,8 @@ if ! is_installed; then
 fi
 #source config
 source "$installed_conf_path"
-systemctl_status_return=$(systemctl status) || { echo "Error getting services status !"; exit 1; }
-systemctl_failed_services_return=$(systemctl list-units --failed) || { echo "Error getting services status !"; exit 1; }
+systemctl_status_return=$(systemctl status 2>&1) || { echo "Error getting services status !"; exit 1; }
+systemctl_failed_services_return=$(systemctl list-units --failed 2>&1) || { echo "Error getting services status !"; exit 1; }
 
 if [ "$1" = "test-notifications" ]; then 
   test_notification_title="Test notification $hostname $script_name $script_version"
@@ -146,7 +146,7 @@ if [ "$1" = "test-notifications" ]; then
     url : $gotify_url
     app_token : $gotify_app_token"
     gotify_notification_message="${systemctl_failed_services_return//$'\n'/\\n}"
-    gotify_response=$(gotify_send_message "$test_notification_title" "$gotify_notification_message")
+    gotify_response=$(gotify_send_message "$test_notification_title" "$gotify_notification_message" 2>&1)
     echo "$gotify_response"
   fi
   exit 0
@@ -171,6 +171,6 @@ if gotify_is_setup; then
   url : $gotify_url
   app_token : $gotify_app_token"
   gotify_notification_message="${systemctl_failed_services_return//$'\n'/\\n}"
-  gotify_response=$(gotify_send_message "$services_failed_notification_title" "$gotify_notification_message")
+  gotify_response=$(gotify_send_message "$services_failed_notification_title" "$gotify_notification_message" 2>&1)
   echo "$gotify_response"
 fi
