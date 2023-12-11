@@ -199,13 +199,13 @@ fi
 
 #watch list exit check comes before unwatch one
 #because watch list has priority over unwatch list
-if [ $watchlist_check_pass = 1 ]; then
- echo "Failed services matching watchlist config. 
+if [ $watchlist_check_pass = 2 ]; then
+ echo "All Failed services matching watchlist config. 
  We don't send failed services notification." 
  exit 0
 fi
 
-if [ $unwatchlist_check_pass = 1 ]; then
+if [ $unwatchlist_check_pass = 2 ]; then
  echo "All failed services matching unwatchlist config. 
  We don't send failed services notification." 
  exit 0
