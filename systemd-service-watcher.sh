@@ -14,7 +14,7 @@ top_dir=${my_path%/*}
 my_real_name=${my_path##*/}
 
 script_name="Systemd Service Watcher"
-script_version="3.0.0-rc"
+script_version="3.0.0"
 installed_path="/opt/systemd-service-watcher"
 installed_script_path="${installed_path}/systemd-service-watcher.sh"
 installed_conf_path="${installed_path}/systemd-service-watcher.conf"
