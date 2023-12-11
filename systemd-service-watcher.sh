@@ -168,10 +168,10 @@ watchlist_check_pass=1
 #1 = pass as watchlist empty
 #2 = pass with watchlist non empty
 #0 = pass failed 
-if [ "${#watchlist[@]}" -gt 0 ]; then
+if [ ${#watchlist[@]} -gt 0 ]; then
   watchlist_check_pass=2
   echo "Checking against watchlist : ${watchlist[*]}"
-  for watchlist_entry in "$watchlist[@]"
+  for watchlist_entry in "${watchlist[@]}"
   do
     if [[ "$watchlist_entry" = *"$systemctl_failed_services_return"* ]]; then
       echo "following watched service(s) failed : $watchlist_entry"
@@ -185,10 +185,10 @@ unwatchlist_check_pass=1
 #1 = pass as unwatchlist empty
 #2 = pass with unwatchlist non empty
 #0 = pass failed 
-if [ "${#unwatchlist[@]"} -gt 0 ]; then
+if [ ${#unwatchlist[@]} -gt 0 ]; then
   unwatchlist_check_pass=2
   echo "Checking against unwatchlist : ${unwatchlist[*]}"
-  for unwatchlist_entry in "$unwatchlist[@]"
+  for unwatchlist_entry in "${unwatchlist[@]}"
   do
     if [[ "$unwatchlist_entry" != *"$systemctl_failed_services_return"* ]]; then
       echo "following non unwatched service(s) failed : $unwatchlist_entry"
