@@ -14,7 +14,7 @@ top_dir=${my_path%/*}
 my_real_name=${my_path##*/}
 
 script_name="Systemd Service Watcher"
-script_version="3.0.0"
+script_version="3.0.1"
 installed_path="/opt/systemd-service-watcher"
 installed_script_path="${installed_path}/systemd-service-watcher.sh"
 installed_conf_path="${installed_path}/systemd-service-watcher.conf"
@@ -173,7 +173,7 @@ if [ ${#watchlist[@]} -gt 0 ]; then
   echo "Checking against watchlist : ${watchlist[*]}"
   for watchlist_entry in "${watchlist[@]}"
   do
-    if [[ "$systemctl_failed_services_return" =~ "${watchlist_entry}.service" ]]; then
+    if [[ "$systemctl_failed_services_return" = *"${watchlist_entry}.service"* ]]; then
       echo "following watched service(s) failed : $watchlist_entry"
       watchlist_check_pass=0
     fi
@@ -190,7 +190,7 @@ if [ ${#unwatchlist[@]} -gt 0 ]; then
   echo "Checking against unwatchlist : ${unwatchlist[*]}"
   for unwatchlist_entry in "${unwatchlist[@]}"
   do
-    if [[ "$systemctl_failed_services_return" =~ "${unwatchlist_entry}.service" ]]; then
+    if [[ "$systemctl_failed_services_return" = *"${unwatchlist_entry}.service"* ]]; then
       echo "following unwatched service(s) failed : $unwatchlist_entry"
     else
       echo "following non unwatched service(s) failed : $unwatchlist_entry"
