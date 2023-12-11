@@ -191,6 +191,8 @@ if [ ${#unwatchlist[@]} -gt 0 ]; then
   for unwatchlist_entry in "${unwatchlist[@]}"
   do
     if [[ "$systemctl_failed_services_return" =~ "${unwatchlist_entry}.service" ]]; then
+      echo "following unwatched service(s) failed : $unwatchlist_entry"
+    else
       echo "following non unwatched service(s) failed : $unwatchlist_entry"
       unwatchlist_check_pass=0
     fi
