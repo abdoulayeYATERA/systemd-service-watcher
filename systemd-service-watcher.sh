@@ -3,6 +3,8 @@
 set -e
 #exit on unset variable
 set -u
+#-o pipefail fail if pipe command failed (https://www.howtogeek.com/782514/how-to-use-set-and-pipefail-in-bash-scripts-on-linux/)
+set -o pipefail
 #extend globbing
 shopt -s extglob
 
@@ -12,7 +14,7 @@ top_dir=${my_path%/*}
 my_real_name=${my_path##*/}
 
 script_name="Systemd Service Watcher"
-script_version="2.0.0"
+script_version="3.0.0"
 installed_path="/opt/systemd-service-watcher"
 installed_script_path="${installed_path}/systemd-service-watcher.sh"
 installed_conf_path="${installed_path}/systemd-service-watcher.conf"
@@ -21,6 +23,8 @@ default_config="
 mail=
 gotify_url=
 gotify_app_token=
+watchlist=()
+unwatchlist=()
 "
 default_cron="
 DATEVAR=date -u +%Y-%m-%dT%H:%M
@@ -158,6 +162,57 @@ if [[ $systemctl_status_return =~ "Failed: 0 units" ]]; then
   exit 0
 fi
 echo "Failed services detected !"
+echo "$systemctl_failed_services_return"
+#check watchlist
+watchlist_check_pass=1
+#1 = pass as watchlist empty
+#2 = pass with watchlist non empty
+#0 = pass failed 
+if [ ${#watchlist[@]} -gt 0 ]; then
+  watchlist_check_pass=2
+  echo "Checking against watchlist : ${watchlist[*]}"
+  for watchlist_entry in "${watchlist[@]}"
+  do
+    if [[ "$systemctl_failed_services_return" =~ "${watchlist_entry}.service" ]]; then
+      echo "following watched service(s) failed : $watchlist_entry"
+      watchlist_check_pass=0
+    fi
+  done
+fi
+
+#check unwatchlist
+unwatchlist_check_pass=1
+#1 = pass as unwatchlist empty
+#2 = pass with unwatchlist non empty
+#0 = pass failed 
+if [ ${#unwatchlist[@]} -gt 0 ]; then
+  unwatchlist_check_pass=2
+  echo "Checking against unwatchlist : ${unwatchlist[*]}"
+  for unwatchlist_entry in "${unwatchlist[@]}"
+  do
+    if [[ "$systemctl_failed_services_return" =~ "${unwatchlist_entry}.service" ]]; then
+      echo "following unwatched service(s) failed : $unwatchlist_entry"
+    else
+      echo "following non unwatched service(s) failed : $unwatchlist_entry"
+      unwatchlist_check_pass=0
+    fi
+  done
+fi
+
+#watch list exit check comes before unwatch one
+#because watch list has priority over unwatch list
+if [ $watchlist_check_pass = 2 ]; then
+ echo "All Failed services matching watchlist config. 
+ We don't send failed services notification." 
+ exit 0
+fi
+
+if [ $unwatchlist_check_pass = 2 ]; then
+ echo "All failed services matching unwatchlist config. 
+ We don't send failed services notification." 
+ exit 0
+fi
+
 services_failed_notification_title="Services Failed on $hostname"
 if [ -n "$mail" ]; then 
   #send mail

@@ -8,7 +8,7 @@ periodically if there are failed services.
 ## How to use it
 
 ```
----  Systemd Service Watcher 1.0.0 ---
+---  Systemd Service Watcher 3.0.0 ---
 Use with the following arguments
 
   install
@@ -68,6 +68,19 @@ Use with the following arguments
   ```
   gotify_url=https://gotify.mywebsite.com
   gotify_app_token=xdnsidutsridx_isté
+  ```
+
+  To watch only some services, fill up the watchlist array.
+
+  ```
+  watchlist=( "apache2" "mariadb" "fail2ban" )
+  ```
+
+  To watch all services except some, fill the unwatchlist array.<br/>
+  Note that watchlist has priority over unwatchlist.
+
+  ```
+  unwatchlist=( "logroatate" "man-db" )
   ```
 
 - 3.Done
