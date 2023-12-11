@@ -76,8 +76,8 @@ Use with the following arguments
   watchlist=( "apache2" "mariadb" "fail2ban" )
   ```
 
-  To watch all services except some, fill the unwatchlist array
-  Note that watchlist has priority over unwatchlist
+  To watch all services except some, fill the unwatchlist array.<br/>
+  Note that watchlist has priority over unwatchlist.
 
   ```
   unwatchlist=( "logroatate" "man-db" )
