@@ -8,7 +8,7 @@ periodically if there are failed services.
 ## How to use it
 
 ```
----  Systemd Service Watcher 3.0.0 ---
+---  Systemd Service Watcher 3.0.1 ---
 Use with the following arguments
 
   install
