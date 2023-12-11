@@ -173,7 +173,7 @@ if [ ${#watchlist[@]} -gt 0 ]; then
   echo "Checking against watchlist : ${watchlist[*]}"
   for watchlist_entry in "${watchlist[@]}"
   do
-    if [[ "$watchlist_entry" = *"$systemctl_failed_services_return"* ]]; then
+    if [[ "$systemctl_failed_services_return" =~ "$watchlist_entry" ]]; then
       echo "following watched service(s) failed : $watchlist_entry"
       watchlist_check_pass=0
     fi
@@ -190,7 +190,7 @@ if [ ${#unwatchlist[@]} -gt 0 ]; then
   echo "Checking against unwatchlist : ${unwatchlist[*]}"
   for unwatchlist_entry in "${unwatchlist[@]}"
   do
-    if [[ "$unwatchlist_entry" != *"$systemctl_failed_services_return"* ]]; then
+    if [[ "$systemctl_failed_services_return" =~ "$unwatchlist_entry" ]]; then
       echo "following non unwatched service(s) failed : $unwatchlist_entry"
       unwatchlist_check_pass=0
     fi
