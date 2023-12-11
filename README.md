@@ -70,6 +70,19 @@ Use with the following arguments
   gotify_app_token=xdnsidutsridx_isté
   ```
 
+  To watch only some services, fill up the watchlist array.
+
+  ```
+  watchlist=( "apache2" "mariadb" "fail2ban" )
+  ```
+
+  To watch all services except some, fill the unwatchlist array
+  Note that watchlist has priority over unwatchlist
+
+  ```
+  unwatchlist=( "logroatate" "man-db" )
+  ```
+
 - 3.Done
 
   Delete the cloned project
