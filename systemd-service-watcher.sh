@@ -14,7 +14,7 @@ top_dir=${my_path%/*}
 my_real_name=${my_path##*/}
 
 script_name="Systemd Service Watcher"
-script_version="3.0.1"
+script_version="3.0.2"
 installed_path="/opt/systemd-service-watcher"
 installed_script_path="${installed_path}/systemd-service-watcher.sh"
 installed_conf_path="${installed_path}/systemd-service-watcher.conf"
@@ -30,6 +30,11 @@ default_cron="
 DATEVAR=date -u +%Y-%m-%dT%H:%M
 #m h dom m dow user script
 */10 * * * *  root \"$installed_script_path\" check-services > /dev/null
+"
+a="
+  UNIT              LOAD   ACTIVE SUB    DESCRIPTION
+  ● logrotate.service loaded failed failed Rotate log files
+  ● man-db.service loaded failed failed Rotate log files
 "
 
 hostname=$(hostname -f)
@@ -135,6 +140,7 @@ fi
 source "$installed_conf_path"
 systemctl_status_return=$(systemctl status 2>&1) || { echo "Error getting services status !"; exit 1; }
 systemctl_failed_services_return=$(systemctl list-units --failed 2>&1) || { echo "Error getting services status !"; exit 1; }
+systemctl_failed_services_return=$a
 
 if [ "$1" = "test-notifications" ]; then 
   test_notification_title="Test notification $hostname $script_name $script_version"
@@ -169,8 +175,8 @@ watchlist_check_pass=1
 #2 = pass with watchlist non empty
 #0 = pass failed 
 if [ ${#watchlist[@]} -gt 0 ]; then
-  watchlist_check_pass=2
   echo "Checking against watchlist : ${watchlist[*]}"
+  watchlist_check_pass=2
   for watchlist_entry in "${watchlist[@]}"
   do
     if [[ "$systemctl_failed_services_return" = *"${watchlist_entry}.service"* ]]; then
@@ -186,15 +192,23 @@ unwatchlist_check_pass=1
 #2 = pass with unwatchlist non empty
 #0 = pass failed 
 if [ ${#unwatchlist[@]} -gt 0 ]; then
-  unwatchlist_check_pass=2
   echo "Checking against unwatchlist : ${unwatchlist[*]}"
-  for unwatchlist_entry in "${unwatchlist[@]}"
+  readarray -t  failed_service_array < <( printf "%s" "$systemctl_failed_services_return" | grep -o -E "[^ ]*\.service" | sed "s/\.service//")
+  for failed_service in "${failed_service_array[@]}"
   do
-    if [[ "$systemctl_failed_services_return" = *"${unwatchlist_entry}.service"* ]]; then
-      echo "following unwatched service(s) failed : $unwatchlist_entry"
-    else
-      echo "following non unwatched service(s) failed : $unwatchlist_entry"
+    for unwatchlist_entry in "${unwatchlist[@]}"
+    do
       unwatchlist_check_pass=0
+      if [[ "$unwatchlist_entry" = "$failed_service" ]]; then
+        echo "following unwatched service(s) failed : $unwatchlist_entry"
+        unwatchlist_check_pass=2
+        break
+      fi
+    done
+
+    if [ $unwatchlist_check_pass -eq 0 ]; then
+        echo "following non unwatched service(s) failed : $failed_service"
+        break
     fi
   done
 fi
