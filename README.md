@@ -8,7 +8,7 @@ periodically if there are failed services.
 ## How to use it
 
 ```
----  Systemd Service Watcher 3.0.2 ---
+---  Systemd Service Watcher 3.0.3 ---
 Use with the following arguments
 
   install
@@ -28,6 +28,8 @@ Use with the following arguments
 
   help
     show the help
+  ------------
+  For more details : https://github.com/abdoulayeYATERA/systemd-service-watcher
 ```
 
 - 1.download

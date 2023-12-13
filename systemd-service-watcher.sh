@@ -14,7 +14,7 @@ top_dir=${my_path%/*}
 my_real_name=${my_path##*/}
 
 script_name="Systemd Service Watcher"
-script_version="3.0.2"
+script_version="3.0.3"
 installed_path="/opt/systemd-service-watcher"
 installed_script_path="${installed_path}/systemd-service-watcher.sh"
 installed_conf_path="${installed_path}/systemd-service-watcher.conf"
@@ -81,6 +81,8 @@ print_help() {
   
   help 
     show the help
+  ------------
+  For more details : https://github.com/abdoulayeYATERA/systemd-service-watcher
   "
 }
 
@@ -88,6 +90,7 @@ echo "---  $script_name $script_version ---"
 
 if [ $# -eq 0 ]; then
   print_help
+  exit 0
 fi
 
 if [ "$1" = "install" ]; then
