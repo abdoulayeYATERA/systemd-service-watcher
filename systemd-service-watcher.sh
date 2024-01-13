@@ -31,11 +31,6 @@ DATEVAR=date -u +%Y-%m-%dT%H:%M
 #m h dom m dow user script
 */10 * * * *  root \"$installed_script_path\" check-services > /dev/null
 "
-a="
-  UNIT              LOAD   ACTIVE SUB    DESCRIPTION
-  ● logrotate.service loaded failed failed Rotate log files
-  ● man-db.service loaded failed failed Rotate log files
-"
 
 hostname=$(hostname -f)
 
@@ -143,7 +138,6 @@ fi
 source "$installed_conf_path"
 systemctl_status_return=$(systemctl status 2>&1) || { echo "Error getting services status !"; exit 1; }
 systemctl_failed_services_return=$(systemctl list-units --failed 2>&1) || { echo "Error getting services status !"; exit 1; }
-systemctl_failed_services_return=$a
 
 if [ "$1" = "test-notifications" ]; then 
   test_notification_title="Test notification $hostname $script_name $script_version"
