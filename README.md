@@ -8,7 +8,7 @@ periodically if there are failed services.
 ## How to use it
 
 ```
----  Systemd Service Watcher 3.0.3 ---
+---  Systemd Service Watcher 3.1.0 ---
 Use with the following arguments
 
   install
@@ -70,6 +70,7 @@ Use with the following arguments
   ```
   gotify_url=https://gotify.mywebsite.com
   gotify_app_token=xdnsidutsridx_isté
+  gotify_priority=3
   ```
 
   To watch only some services, fill up the watchlist array.
