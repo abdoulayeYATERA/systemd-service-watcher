@@ -14,7 +14,7 @@ top_dir=${my_path%/*}
 my_real_name=${my_path##*/}
 
 script_name="Systemd Service Watcher"
-script_version="3.0.3"
+script_version="3.1.0"
 installed_path="/opt/systemd-service-watcher"
 installed_script_path="${installed_path}/systemd-service-watcher.sh"
 installed_conf_path="${installed_path}/systemd-service-watcher.conf"
@@ -23,6 +23,7 @@ default_config="
 mail=
 gotify_url=
 gotify_app_token=
+gotify_priority=
 watchlist=()
 unwatchlist=()
 "
@@ -48,12 +49,13 @@ gotify_send_message() {
   -H 'Content-Type: application/json' \
   -d "{
         \"message\": \"$2\",
-        \"title\": \"$1\"
+        \"title\": \"$1\",
+        \"priority\": $3
       }"
 }
 
 gotify_is_setup() {
-  test -n "$gotify_url" && test -n "$gotify_app_token"
+  [ -n "$gotify_url" ] && [ -n "$gotify_app_token" ] && [ "$gotify_priority" -gt 0 ]
 }
 
 print_help() {
@@ -153,7 +155,7 @@ if [ "$1" = "test-notifications" ]; then
     url : $gotify_url
     app_token : $gotify_app_token"
     gotify_notification_message="${systemctl_failed_services_return//$'\n'/\\n}"
-    gotify_response=$(gotify_send_message "$test_notification_title" "$gotify_notification_message" 2>&1)
+    gotify_response=$(gotify_send_message "$test_notification_title" "$gotify_notification_message" "$gotify_priority" 2>&1)
     echo "$gotify_response"
   fi
   exit 0
@@ -237,6 +239,6 @@ if gotify_is_setup; then
   url : $gotify_url
   app_token : $gotify_app_token"
   gotify_notification_message="${systemctl_failed_services_return//$'\n'/\\n}"
-  gotify_response=$(gotify_send_message "$services_failed_notification_title" "$gotify_notification_message" 2>&1)
+  gotify_response=$(gotify_send_message "$services_failed_notification_title" "$gotify_notification_message" "$gotify_priority" 2>&1)
   echo "$gotify_response"
 fi
